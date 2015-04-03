@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 
 namespace PetClinic.Data.DomainObjects
 {
-    public class Category : IEntity
+    public class User : IEntity, INamable
     {
-        public Category()
-        {
-            this.Products = new List<Product>();
-        }
 
         public virtual int Id { get; set; }
 
         public virtual string Name { get; set; }
 
-        public virtual IList<Product> Products { get; set; }
+        public virtual string Password { get; set; }
 
+        public virtual string Email { get; set; }
+
+        public virtual bool IsLockedOut { get; set; }
+
+        //TODO: Add IList for Pets
     }
 }

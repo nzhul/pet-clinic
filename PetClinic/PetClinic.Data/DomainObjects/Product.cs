@@ -8,16 +8,16 @@ namespace PetClinic.Data
 {
     public class Product : IEntity
     {
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
 
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
-        public int Price { get; set; }
+        public virtual int Price { get; set; }
 
-        public string Description { get; set; }
+        public virtual string Description { get; set; }
 
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
-        public int CategoryId { get; set; }
+        public virtual int CategoryId { get; set; }
     }
 }

@@ -15,6 +15,9 @@ namespace PetClinic.Data
 
             List<MappingConfiguration> configurations = new List<MappingConfiguration>();
 
+
+            //TODO: Add the Users in the MetaDataSource
+
             MappingConfiguration<Product> productConfiguration = new MappingConfiguration<Product>();
             productConfiguration.MapType().ToTable("Products");
             productConfiguration.HasProperty(p => p.Id).IsIdentity(KeyGenerator.Autoinc);

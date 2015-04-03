@@ -61,6 +61,8 @@
     <Compile Include="DomainObjects\Category.cs" />
     <Compile Include="DomainObjects\IEntity.cs" />
     <Compile Include="DataMetadataSource.cs" />
+    <Compile Include="DomainObjects\INamable.cs" />
+    <Compile Include="DomainObjects\User.cs" />
     <Compile Include="IContextFactory.cs" />
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
     <Compile Include="DomainObjects\Product.cs" />
@@ -68,10 +70,13 @@
     <Compile Include="Repository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Service\IProductService.cs" />
+    <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\ProductService.cs" />
+    <Compile Include="Service\UserService.cs" />
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenAccessNuGet.targets" />

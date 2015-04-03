@@ -55,7 +55,14 @@ namespace PetClinic.Data.Service
                 Name = name
             };
 
-            categoryRepository.Add(newCategory);
+            Product newProduct = new Product
+            {
+                Name = "ProductGosho"
+            };
+
+            newProduct.Category = newCategory;
+
+            productRepository.Add(newProduct);
 
             unitOfWork.Commit();
 
