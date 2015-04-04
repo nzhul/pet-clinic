@@ -18,7 +18,5 @@ namespace PetClinic.Data.DomainObjects
         public virtual string Email { get; set; }
 
         public virtual bool IsLockedOut { get; set; }
-
-        //TODO: Add IList for Pets
     }
 }

@@ -10,9 +10,9 @@ namespace PetClinic.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IProductService productService;
+        private readonly IPetClinicService productService;
 
-        public HomeController(IProductService productService)
+        public HomeController(IPetClinicService productService)
         {
             this.productService = productService;
         }
@@ -21,9 +21,9 @@ namespace PetClinic.Web.Controllers
         {
             //IEnumerable<CategoryViewModel> categories = productService.GetCategories();
 
-            int newCategoryId = productService.CreateCategory("FUCK");
+            //int newCategoryId = productService.CreateCategory("FUCK");
 
-            string gosho = "12";
+            //string gosho = "12";
 
             return View();
         }

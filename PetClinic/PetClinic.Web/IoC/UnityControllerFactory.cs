@@ -10,6 +10,8 @@ using PetClinic.Data;
 using PetClinic.Data.Infrastructure;
 using PetClinic.Data.Service;
 using PetClinic.Data.Repository;
+using PetClinic.Web.Account;
+using System.Web.Security;
 
 namespace PetClinic.Web.IoC
 {
@@ -42,7 +44,11 @@ namespace PetClinic.Web.IoC
             string connectionString = ConfigurationManager.ConnectionStrings["PetClinic"].ConnectionString;
             container.RegisterType<IContextFactory, ContextFactory>(new ContainerControlledLifetimeManager(), new InjectionConstructor(connectionString))
                      .RegisterType<IUnitOfWork, UnitOfWork>(new ContainerControlledLifetimeManager())
-                     .RegisterType<IProductService, ProductService>()
+                     .RegisterType<IFormsAuthenticationService, FormsAuthenticationService>()
+                     .RegisterType<IMembershipService, MembershipService>()
+                     .RegisterInstance<MembershipProvider>(Membership.Provider)
+                     .RegisterType<IUserService, UserService>()
+                     .RegisterType<IPetClinicService, PetClinicService>()
                      .RegisterType(typeof(IRepository<>), typeof(Repository<>));
 
             ControllerBuilder.Current.SetControllerFactory(new UnityControllerFactory(container));

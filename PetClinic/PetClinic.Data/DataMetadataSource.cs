@@ -18,18 +18,23 @@ namespace PetClinic.Data
 
             //TODO: Add the Users in the MetaDataSource
 
-            MappingConfiguration<Product> productConfiguration = new MappingConfiguration<Product>();
-            productConfiguration.MapType().ToTable("Products");
-            productConfiguration.HasProperty(p => p.Id).IsIdentity(KeyGenerator.Autoinc);
-            productConfiguration.HasAssociation(p => p.Category)
-                .WithOpposite(c => c.Products)
-                .HasConstraint((p, c) => p.CategoryId == c.Id);
-            configurations.Add(productConfiguration);
+            MappingConfiguration<Pet> petConfiguration = new MappingConfiguration<Pet>();
+            petConfiguration.MapType().ToTable("Pets");
+            petConfiguration.HasProperty(p => p.Id).IsIdentity(KeyGenerator.Autoinc);
+            petConfiguration.HasAssociation(p => p.Owner)
+                .WithOpposite(c => c.Pets)
+                .HasConstraint((p, c) => p.OwnerId == c.Id);
+            configurations.Add(petConfiguration);
 
-            MappingConfiguration<Category> categoryConfiguration = new MappingConfiguration<Category>();
-            categoryConfiguration.MapType().ToTable("Categories");
-            categoryConfiguration.HasProperty(p => p.Id).IsIdentity(KeyGenerator.Autoinc);
-            configurations.Add(categoryConfiguration);
+            MappingConfiguration<Owner> ownerConfiguration = new MappingConfiguration<Owner>();
+            ownerConfiguration.MapType().ToTable("Owners");
+            ownerConfiguration.HasProperty(p => p.Id).IsIdentity(KeyGenerator.Autoinc);
+            configurations.Add(ownerConfiguration);
+
+            MappingConfiguration<User> userConfiguration = new MappingConfiguration<User>();
+            userConfiguration.MapType().ToTable("Users");
+            userConfiguration.HasProperty(p => p.Id).IsIdentity(KeyGenerator.Autoinc);
+            configurations.Add(userConfiguration);
 
             return configurations;
         }
