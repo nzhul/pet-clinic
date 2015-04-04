@@ -1,0 +1,10 @@
+﻿@model IEnumerable<PetClinic.Data.ViewModels.PetViewModel>
+
+@foreach (var Pet in Model)
+{
+    <tr>
+        <td>@Pet.Name</td>
+        <td>@Pet.PetType</td>
+        <td>@Pet.Owner.Name</td>
+    </tr>
+}

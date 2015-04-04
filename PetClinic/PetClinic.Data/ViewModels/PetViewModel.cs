@@ -18,6 +18,8 @@ namespace PetClinic.Data.ViewModels
 
         public int Age { get; set; }
 
+        public string PetType { get; set; }
+
         public Gender Gender { get; set; }
 
         public Owner Owner { get; set; }

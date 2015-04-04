@@ -1,4 +1,5 @@
 ﻿using PetClinic.Data.DomainObjects;
+using PetClinic.Data.DomainObjects.Enums;
 using PetClinic.Data.Infrastructure;
 using PetClinic.Data.Repository;
 using PetClinic.Data.ViewModels;
@@ -29,6 +30,12 @@ namespace PetClinic.Data.Service
             return CreateOwnerViewModel(owner);
         }
 
+        public virtual OwnerDetailsViewModel GetOwnerDetailsById(int id)
+        {
+            Owner owner = ownerRepository.One(id);
+            return CreateOwnerDetailsViewModel(owner);
+        }
+
         public virtual IEnumerable<OwnerViewModel> GetOwners()
         {
             IEnumerable<OwnerViewModel> owner = ownerRepository.All().Select(CreateOwnerViewModel);
@@ -50,12 +57,52 @@ namespace PetClinic.Data.Service
 
         public virtual int CreateOwner(string name)
         {
-            throw new NotImplementedException();
+            Owner owner = new Owner
+            {
+                Name = name
+            };
+
+            ownerRepository.Add(owner);
+            unitOfWork.Commit();
+
+            return owner.Id;
         }
 
         public virtual int CreatePet(string name, int ownerId)
         {
-            throw new NotImplementedException();
+            Owner selectedOwner = ownerRepository.FindOne(x => x.Id == ownerId);
+
+            Pet newPet = new Pet
+            {
+                Name = name,
+                Owner = selectedOwner
+            };
+
+            petRepository.Add(newPet);
+            unitOfWork.Commit();
+
+            return newPet.Id;
+        }
+
+        public virtual int CreateCat(string name, int ownerId, string breed, int age, Gender gender, int numberOfHoursSpentSleeping, string favouriteFood)
+        {
+            Owner selectedOwner = ownerRepository.FindOne(x => x.Id == ownerId);
+
+            Pet newCat = new Cat
+            {
+                Name = name,
+                Owner = selectedOwner,
+                Breed = breed,
+                Age = age,
+                Gender = gender,
+                NumberOfHoursSpentSleeping = numberOfHoursSpentSleeping,
+                FavouriteFood = favouriteFood
+            };
+
+            petRepository.Add(newCat);
+            unitOfWork.Commit();
+
+            return newCat.Id;
         }
 
         private OwnerViewModel CreateOwnerViewModel(Owner owner)
@@ -68,8 +115,35 @@ namespace PetClinic.Data.Service
             };
         }
 
+        private OwnerDetailsViewModel CreateOwnerDetailsViewModel(Owner owner)
+        {
+            return new OwnerDetailsViewModel
+            {
+                Id = owner.Id,
+                Name = owner.Name,
+                Pets = owner.Pets
+            };
+        }
+
         private PetViewModel CreatePetViewModel(Pet pet)
         {
+            string petType = String.Empty;
+            if (pet is Cat)
+            {
+                petType = "Cat";
+            }
+            else if (pet is Dog)
+            {
+                petType = "Dog";
+            }
+            else if (pet is Bird)
+            {
+                petType = "Bird";
+            }
+            else
+            {
+                petType = "Unknown";
+            }
             return new PetViewModel
             {
                 Id = pet.Id,
@@ -77,7 +151,8 @@ namespace PetClinic.Data.Service
                 Owner = pet.Owner,
                 OwnerId = pet.OwnerId,
                 Age = pet.Age,
-                Breed = pet.Breed
+                Breed = pet.Breed,
+                PetType = petType
             };
         }
     }

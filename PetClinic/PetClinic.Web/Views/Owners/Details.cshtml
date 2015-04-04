@@ -1,0 +1,15 @@
+﻿@model PetClinic.Data.ViewModels.OwnerDetailsViewModel
+@{
+    ViewBag.Title = "Owner Details";
+}
+
+<h3>Owner: @Model.Name</h3>
+<hr />
+<h5>Pets:</h5>
+<ul>
+    @foreach (var Pet in Model.Pets)
+    {
+        <li>@Pet.Name</li>
+    }
+</ul>
+

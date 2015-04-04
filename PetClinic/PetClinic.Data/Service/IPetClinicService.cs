@@ -1,4 +1,5 @@
-﻿using PetClinic.Data.ViewModels;
+﻿using PetClinic.Data.DomainObjects.Enums;
+using PetClinic.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace PetClinic.Data.Service
 
         OwnerViewModel GetOwnerById(int id);
 
+        OwnerDetailsViewModel GetOwnerDetailsById(int id);
+
         IEnumerable<OwnerViewModel> GetOwners();
 
         PetViewModel GetPetById(int id);
@@ -19,6 +22,10 @@ namespace PetClinic.Data.Service
         IEnumerable<PetViewModel> GetPets();
 
         int CreateOwner(string name);
+
         int CreatePet(string name, int ownerId);
+
+        int CreateCat(string name, int ownerId, string breed, int age, Gender gender, int numberOfHoursSpentSleeping, string favouriteFood);
+
     }
 }

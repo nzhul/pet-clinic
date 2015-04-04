@@ -10,25 +10,52 @@ namespace PetClinic.Data
     {
         protected override IList<MappingConfiguration> PrepareMapping()
         {
-            // Getting Started with the Fluent Mapping API
-            // http://documentation.telerik.com/openaccess-orm/developers-guide/code-only-mapping/fluent-mapping-overview
-
             List<MappingConfiguration> configurations = new List<MappingConfiguration>();
-
-
-            //TODO: Add the Users in the MetaDataSource
 
             MappingConfiguration<Pet> petConfiguration = new MappingConfiguration<Pet>();
             petConfiguration.MapType().ToTable("Pets");
             petConfiguration.HasProperty(p => p.Id).IsIdentity(KeyGenerator.Autoinc);
+            petConfiguration.HasProperty(p => p.Name).IsUnicode();
+            petConfiguration.HasProperty(p => p.Breed).IsUnicode();
             petConfiguration.HasAssociation(p => p.Owner)
                 .WithOpposite(c => c.Pets)
                 .HasConstraint((p, c) => p.OwnerId == c.Id);
             configurations.Add(petConfiguration);
 
+            MappingConfiguration<Cat> catConfiguration = new MappingConfiguration<Cat>();
+            catConfiguration.MapType(x => new
+            {
+                NumberOfHoursSpentSleeping = x.NumberOfHoursSpentSleeping,
+                FavouriteFood = x.FavouriteFood
+            }).Inheritance(Telerik.OpenAccess.InheritanceStrategy.Vertical).ToTable("Cats");
+            catConfiguration.HasProperty(p => p.FavouriteFood).IsUnicode();
+            configurations.Add(catConfiguration);
+
+            MappingConfiguration<Dog> dogConfiguration = new MappingConfiguration<Dog>();
+            dogConfiguration.MapType(x => new
+            {
+                FavouriteFood = x.FavouriteFood,
+                FavouriteGame = x.FavouriteGame,
+                isAgresive = x.IsAggressiveTowardsOtherPeople
+            }).Inheritance(Telerik.OpenAccess.InheritanceStrategy.Vertical).ToTable("Dogs");
+            dogConfiguration.HasProperty(p => p.Name).IsUnicode();
+            dogConfiguration.HasProperty(p => p.Breed).IsUnicode();
+            dogConfiguration.HasProperty(p => p.FavouriteFood).IsUnicode();
+            dogConfiguration.HasProperty(p => p.FavouriteGame).IsUnicode();
+            configurations.Add(dogConfiguration);
+
+            MappingConfiguration<Bird> birdConfiguration = new MappingConfiguration<Bird>();
+            birdConfiguration.MapType(x => new
+            {
+                PertnerId = x.PartnerId,
+                Partner = x.Partner
+            }).Inheritance(Telerik.OpenAccess.InheritanceStrategy.Vertical).ToTable("Birds");
+            configurations.Add(birdConfiguration);
+
             MappingConfiguration<Owner> ownerConfiguration = new MappingConfiguration<Owner>();
             ownerConfiguration.MapType().ToTable("Owners");
             ownerConfiguration.HasProperty(p => p.Id).IsIdentity(KeyGenerator.Autoinc);
+            ownerConfiguration.HasProperty(p => p.Name).IsUnicode();
             configurations.Add(ownerConfiguration);
 
             MappingConfiguration<User> userConfiguration = new MappingConfiguration<User>();

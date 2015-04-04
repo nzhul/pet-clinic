@@ -58,8 +58,13 @@
   <ItemGroup>
     <Compile Include="ContextFactory.cs" />
     <Compile Include="DataContext.cs" />
+    <Compile Include="DomainObjects\Bird.cs" />
+    <Compile Include="DomainObjects\Cat.cs" />
     <Compile Include="DomainObjects\Category.cs" />
+    <Compile Include="DomainObjects\Dog.cs" />
     <Compile Include="DomainObjects\Enums\Gender.cs" />
+    <Compile Include="DomainObjects\Enums\PetTypes.cs" />
+    <Compile Include="DomainObjects\Examination.cs" />
     <Compile Include="DomainObjects\IEntity.cs" />
     <Compile Include="DataMetadataSource.cs" />
     <Compile Include="DomainObjects\INamable.cs" />
@@ -77,6 +82,8 @@
     <Compile Include="Service\PetClinicService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="UnitOfWork.cs" />
+    <Compile Include="ViewModels\ExaminationViewModel.cs" />
+    <Compile Include="ViewModels\OwnerDetailsViewModel.cs" />
     <Compile Include="ViewModels\OwnerViewModel.cs" />
     <Compile Include="ViewModels\PetViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />

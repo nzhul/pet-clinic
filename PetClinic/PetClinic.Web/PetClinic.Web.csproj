@@ -153,15 +153,19 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OwnersController.cs" />
     <Compile Include="Controllers\PetsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ValidationHelper.cs" />
+    <Compile Include="InputModels\CreateOwnerForm.cs" />
+    <Compile Include="InputModels\CreatePetForm.cs" />
     <Compile Include="InputModels\LoginForm.cs" />
     <Compile Include="InputModels\RegistrationForm.cs" />
     <Compile Include="IoC\UnityControllerFactory.cs" />
     <Compile Include="ModelBinder\CategoryViewModelBinder.cs" />
+    <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Errors.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -212,10 +216,13 @@
     <Content Include="Views\Account\Settings.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Pets\Create.cshtml" />
+    <Content Include="Views\Owners\Create.cshtml" />
+    <Content Include="Views\Shared\Home\_Owners.cshtml" />
+    <Content Include="Views\Owners\Details.cshtml" />
+    <Content Include="Views\Shared\Home\_Pets.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
