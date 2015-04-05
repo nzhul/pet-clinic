@@ -1,0 +1,39 @@
+﻿@model PetClinic.Web.InputModels.CreateExaminationForm
+@using (Html.BeginForm((string)ViewBag.FormMode, "Examinations", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <h3>@ViewBag.Title of the @Model.Pet.PetType : @Model.Pet.Name</h3>
+        <hr />
+        <div class="col-sm-6">
+            <p style="color:red;">@Html.ValidationMessage("ServerError")</p>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Diagnosis, new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.Diagnosis)
+                    @Html.EditorFor(model => model.Diagnosis, new { htmlAttributes = new { @class = "form-control", placeholder = "Eg: The pet is sick and need serious treatment" } })
+                </div>
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.IsSick, new { @class = "control-label" })<br />
+                    @Html.CheckBoxFor(model => model.IsSick)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-warning">
+                        @ViewBag.FormModeText
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4>Pet core characteristics:</h4>
+            <ul>
+                <li><strong>Breed:</strong>  @Model.Pet.Breed</li>
+                <li><strong>Age:</strong> @Model.Pet.Age</li>
+                <li><strong>Gender:</strong> @Model.Pet.Gender</li>
+                <li><strong>Owner:</strong> @Model.Pet.Owner.Name</li>
+            </ul>
+        </div>
+    </div>
+}

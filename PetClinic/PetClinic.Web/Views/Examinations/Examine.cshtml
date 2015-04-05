@@ -1,0 +1,8 @@
+﻿@model PetClinic.Web.InputModels.CreateExaminationForm
+@{
+    ViewBag.Title = "Examination";
+    ViewBag.FormModeText = "Examine";
+    ViewBag.FormMode = "Examine";
+}
+
+@{Html.RenderPartial("Examinations/_CreateEditExamination", Model);}

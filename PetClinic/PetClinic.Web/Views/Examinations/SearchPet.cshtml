@@ -1,0 +1,58 @@
+﻿@model PetClinic.Web.InputModels.SearchPetsForm
+@{
+    ViewBag.Title = "SearchPet";
+}
+
+<h2>SearchPet</h2>
+<p>First you must search for specific pet and then press EXAMINE button to create exam for that PET</p>
+
+@using (Html.BeginForm("SearchPet", "Examinations", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.SelectedOwnerId, new { @class = "control-label" })
+                @Html.ValidationMessageFor(model => model.SelectedOwnerId)
+                @Html.DropDownListFor(model => model.SelectedOwnerId, Model.Owners, " -- Choose Owner --", new { @id = "owners-dropdown", @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.SelectedTypeId, new { @class = "control-label" })
+                @Html.ValidationMessageFor(model => model.SelectedTypeId)
+                @Html.DropDownListFor(model => model.SelectedTypeId, Model.Types, " -- Choose Type --", new { @id = "types-dropdown", @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-warning" style="margin-top:27px;margin-left:-85px;">
+                    Search
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+
+        @if (Model.PetsResult != null && Model.PetsResult.Count() >= 1)
+        {
+            foreach (var Pet in Model.PetsResult)
+            {
+                <div class="panel panel-primary" style="width:200px;float:left;margin-right: 10px;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a href="@Url.Action("Edit", "Pets", new { id = Pet.Id })">@Pet.Name [<small style="color:lightgray">@Pet.PetType</small>]</a>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        Breed: <span class="label label-warning pull-right">@Pet.Breed</span><br />
+                        Age: <span class="label label-danger pull-right">@Pet.Age</span><br />
+                        Gender: <span class="label label-success pull-right">@Pet.Gender</span><br />
+                        Owner: <span class="label label-success pull-right"><a href="@Url.Action("Edit", "Owners", new { id = @Pet.OwnerId })" style="color:white;">@Pet.Owner.Name</a></span><br />
+                        @Html.ActionLink("Examine", "Examine", new { id = Pet.Id }, new { @class = "btn btn-warning", @style="margin-left: 44px;margin-top:15px;" })
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+}

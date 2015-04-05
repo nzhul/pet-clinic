@@ -128,6 +128,18 @@ namespace PetClinic.Web.Controllers
             return View(petForm);
         }
 
+        [HttpGet]
+        [Authorize]
+        public ActionResult Delete(int id)
+        {
+            Pet thePet = petRepository.One(id);
+            petRepository.Remove(thePet);
+            unitOfWork.Commit();
+            TempData["message"] = "The pet was deleted successfully";
+            TempData["messageType"] = "danger";
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpPost]
         [Authorize]
         public ActionResult Edit(CreatePetForm form)
@@ -147,8 +159,23 @@ namespace PetClinic.Web.Controllers
                         theCat.FavouriteFood = form.FavouriteFood;
                         break;
                     case 2: // Dog
+                        Dog theDog = dogRepository.One(form.Id);
+                        theDog.Age = form.Age;
+                        theDog.Breed = form.Breed;
+                        theDog.Gender = form.SelectedGenderId == 1 ? Gender.Male : Gender.Female;
+                        theDog.Name = form.Name;
+                        theDog.OwnerId = form.SelectedOwnerId;
+                        theDog.FavouriteFood = form.FavouriteFood;
+                        theDog.FavouriteGame = form.FavouriteGame;
+                        theDog.IsAggressiveTowardsOtherPeople = form.IsAgressive;
                         break;
                     case 3: // Bird
+                        Bird theBird = birdRepository.One(form.Id);
+                        theBird.Age = form.Age;
+                        theBird.Breed = form.Breed;
+                        theBird.Gender = form.SelectedGenderId == 1 ? Gender.Male : Gender.Female;
+                        theBird.Name = form.Name;
+                        theBird.OwnerId = form.SelectedOwnerId;
                         break;
                     default:
                         break;

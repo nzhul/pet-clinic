@@ -152,6 +152,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ExaminationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OwnersController.cs" />
     <Compile Include="Controllers\PetsController.cs" />
@@ -159,6 +160,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ValidationHelper.cs" />
+    <Compile Include="InputModels\CreateExaminationForm.cs" />
+    <Compile Include="InputModels\SearchPetsForm.cs" />
     <Compile Include="InputModels\CreateOwnerForm.cs" />
     <Compile Include="InputModels\CreatePetForm.cs" />
     <Compile Include="InputModels\LoginForm.cs" />
@@ -225,6 +228,10 @@
     <Content Include="Views\Shared\_MessagePartial.cshtml" />
     <Content Include="Views\Shared\Pets\_CreateEditPet.cshtml" />
     <Content Include="Views\Pets\Edit.cshtml" />
+    <Content Include="Views\Examinations\Examine.cshtml" />
+    <Content Include="Views\Examinations\SearchPet.cshtml" />
+    <Content Include="Views\Shared\Examinations\_CreateEditExamination.cshtml" />
+    <Content Include="Views\Examinations\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

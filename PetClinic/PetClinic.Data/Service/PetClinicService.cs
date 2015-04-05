@@ -56,6 +56,32 @@ namespace PetClinic.Data.Service
             return pet;
         }
 
+        public virtual IEnumerable<PetViewModel> GetPetsFiltered(int ownerId, int typeId)
+        {
+            var petsQuerable = petRepository
+                .All()
+                .Where(x => x.OwnerId == ownerId).AsQueryable();
+
+            switch (typeId)
+            {
+                case 1:
+                    petsQuerable = petsQuerable.Where(x => x is Cat);
+                    break;
+                case 2:
+                    petsQuerable = petsQuerable.Where(x => x is Dog);
+                    break;
+                case 3:
+                    petsQuerable = petsQuerable.Where(x => x is Bird);
+                    break;
+                default:
+                    break;
+            }
+
+            IEnumerable<PetViewModel> pets = petsQuerable.Select(CreatePetViewModel);
+
+            return pets;
+        }
+
 
         public virtual int CreateOwner(string name)
         {

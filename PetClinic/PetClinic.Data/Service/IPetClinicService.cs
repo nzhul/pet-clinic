@@ -20,6 +20,7 @@ namespace PetClinic.Data.Service
         PetViewModel GetPetById(int id);
 
         IEnumerable<PetViewModel> GetPets();
+        IEnumerable<PetViewModel> GetPetsFiltered(int ownerId, int typeId);
 
         int CreateOwner(string name);
 
