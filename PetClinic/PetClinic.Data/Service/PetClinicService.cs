@@ -70,6 +70,14 @@ namespace PetClinic.Data.Service
             return owner.Id;
         }
 
+        public virtual int EditOwner(int id, string name)
+        {
+            Owner theOwner = ownerRepository.One(id);
+            theOwner.Name = name;
+            unitOfWork.Commit();
+            return theOwner.Id;
+        }
+
         public virtual int CreatePet(string name, int ownerId)
         {
             Owner selectedOwner = ownerRepository.FindOne(x => x.Id == ownerId);
@@ -154,8 +162,9 @@ namespace PetClinic.Data.Service
 
         public int CreateBird(string name, int ownerId, string breed, int age, int genderType, int? partnerId)
         {
-            Owner selectedOwner = ownerRepository.FindOne(x => x.Id == ownerId);
-            Bird partner = birdRepository.FindOne(x => x.Id == partnerId);
+            Owner selectedOwner = ownerRepository.One(ownerId);
+            Bird partner = birdRepository.One((int)partnerId);
+            
             Gender gender = Gender.Male;
             switch (genderType)
             {

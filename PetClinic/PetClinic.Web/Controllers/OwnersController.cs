@@ -54,7 +54,8 @@ namespace PetClinic.Web.Controllers
             {
                 var createStatus = petClinicService.CreateOwner(form.Name);
 
-                //TODO: Use TempData
+                TempData["message"] = "Owner "+form.Name+", was created successfully";
+                TempData["messageType"] = "success";
                 return RedirectToAction("Index", "Home");
             }
             return View(form);
@@ -69,20 +70,58 @@ namespace PetClinic.Web.Controllers
             CreateOwnerForm ownerForm = new CreateOwnerForm 
             {
                 Name = theOwner.Name,
-                Pets = theOwner.Pets.Select(x => new PetViewModel 
-                                            {
-                                                Age = x.Age,
-                                                Breed = x.Breed,
-                                                Gender = x.Gender,
-                                                Id = x.Id,
-                                                Name = x.Name,
-                                                //TODO: Find a way to get pet type;
-                                            })
+                Pets = theOwner.Pets.Select(CreatePetViewModel)
             };
 
             return View(ownerForm);
+        }
 
+        [HttpPost]
+        [Authorize]
+        public ActionResult Edit(CreateOwnerForm form)
+        {
+            if (ModelState.IsValid)
+            {
+                petClinicService.EditOwner(form.Id, form.Name);
+                TempData["message"] = "The owner was edited successfully";
+                TempData["messageType"] = "success";
+                return RedirectToAction("Index", "Home");
+            }
 
+            Owner theOwner = ownerRepository.One(form.Id);
+            form.Pets = theOwner.Pets.Select(CreatePetViewModel);
+            return View(form);
+        }
+
+        private PetViewModel CreatePetViewModel(Pet pet)
+        {
+            string petType = String.Empty;
+            if (pet is Cat)
+            {
+                petType = "Cat";
+            }
+            else if (pet is Dog)
+            {
+                petType = "Dog";
+            }
+            else if (pet is Bird)
+            {
+                petType = "Bird";
+            }
+            else
+            {
+                petType = "Unknown";
+            }
+            return new PetViewModel
+            {
+                Id = pet.Id,
+                Name = pet.Name,
+                Owner = pet.Owner,
+                OwnerId = pet.OwnerId,
+                Age = pet.Age,
+                Breed = pet.Breed,
+                PetType = petType
+            };
         }
     }
 }

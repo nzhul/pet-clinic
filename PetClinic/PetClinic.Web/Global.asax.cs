@@ -4,6 +4,7 @@ using PetClinic.Data.Repository;
 using PetClinic.Web.IoC;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -24,10 +25,12 @@ namespace PetClinic.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             UnityControllerFactory.Configure();
-
-            IContextFactory migrationContext = new ContextFactory(@"data source=.\sqlexpress;initial catalog=PetClinic;integrated security=True");
-            IRepository<Category> migrationRepository = new Repository<Category>(migrationContext);
+            string connectionString = ConfigurationManager.ConnectionStrings["PetClinic"].ConnectionString;
+            IContextFactory migrationContext = new ContextFactory(connectionString);
+            IRepository<User> migrationRepository = new Repository<User>(migrationContext);
             migrationRepository.UpdateSchema();
+
+            //TODO: Full 3 Test Users in the database HERE
         }
     }
 }

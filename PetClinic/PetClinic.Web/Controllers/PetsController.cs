@@ -1,5 +1,6 @@
 ﻿using PetClinic.Data.DomainObjects;
 using PetClinic.Data.DomainObjects.Enums;
+using PetClinic.Data.Infrastructure;
 using PetClinic.Data.Repository;
 using PetClinic.Data.Service;
 using PetClinic.Web.InputModels;
@@ -15,13 +16,27 @@ namespace PetClinic.Web.Controllers
     {
         private readonly IPetClinicService petClinicService;
         private readonly IRepository<Owner> ownerRepository;
+        private readonly IRepository<Pet> petRepository;
+        private readonly IRepository<Cat> catRepository;
+        private readonly IRepository<Dog> dogRepository;
         private readonly IRepository<Bird> birdRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public PetsController(IPetClinicService petClinicService, IRepository<Owner> ownerRepository, IRepository<Bird> birdRepository)
+        public PetsController(IPetClinicService petClinicService, 
+                              IRepository<Owner> ownerRepository,
+                              IRepository<Pet> petRepository,
+                              IRepository<Bird> birdRepository, 
+                              IRepository<Cat> catRepository,
+                              IRepository<Dog> dogRepository,
+                              IUnitOfWork unitOfWork)
         {
             this.petClinicService = petClinicService;
             this.ownerRepository = ownerRepository;
+            this.petRepository = petRepository;
+            this.catRepository = catRepository;
+            this.dogRepository = dogRepository;
             this.birdRepository = birdRepository;
+            this.unitOfWork = unitOfWork;
         }
         
         [HttpGet]
@@ -32,7 +47,7 @@ namespace PetClinic.Web.Controllers
             model.Owners = GetOwnersList();
             model.Types = GetTypesList();
             model.Genders = GetGendersList();
-            model.Partners = GetPartnersList();
+            model.Partners = GetPartnersList(0);
             return View(model);
         }
 
@@ -40,29 +55,114 @@ namespace PetClinic.Web.Controllers
         [Authorize]
         public ActionResult Create(CreatePetForm form)
         {
+            int newPetId = 0;
             if (ModelState.IsValid)
             {
                 switch (form.SelectedTypeId)
                 {
                     case 1:
-                        petClinicService.CreateCat(form.Name, form.SelectedOwnerId, form.Breed, form.Age, form.SelectedGenderId, form.NumberOfHoursSpentSleeping, form.FavouriteFood);
+                        newPetId = petClinicService.CreateCat(form.Name, form.SelectedOwnerId, form.Breed, form.Age, form.SelectedGenderId, form.NumberOfHoursSpentSleeping, form.FavouriteFood);
                         break;
                     case 2:
-                        petClinicService.CreateDog(form.Name,form.SelectedOwnerId, form.Breed, form.Age, form.SelectedGenderId, form.FavouriteFood, form.FavouriteGame, form.IsAgressive);
+                        newPetId = petClinicService.CreateDog(form.Name, form.SelectedOwnerId, form.Breed, form.Age, form.SelectedGenderId, form.FavouriteFood, form.FavouriteGame, form.IsAgressive);
                         break;
                     case 3:
-                        petClinicService.CreateBird(form.Name,form.SelectedOwnerId, form.Breed, form.Age, form.SelectedGenderId, form.SelectedPartnerId);
+                        newPetId = petClinicService.CreateBird(form.Name, form.SelectedOwnerId, form.Breed, form.Age, form.SelectedGenderId, form.SelectedPartnerId);
                         break;
                     default:
                         break;
                 }
+                TempData["message"] = "Pet " + form.Name + ", was created successfully";
+                TempData["messageType"] = "success";
                 return RedirectToAction("Index", "Home");
             }
 
             form.Owners = GetOwnersList();
             form.Types = GetTypesList();
             form.Genders = GetGendersList();
-            form.Partners = GetPartnersList();
+            form.Partners = GetPartnersList(newPetId);
+            return View(form);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Edit(int id)
+        {
+            Pet thePet = petRepository.One(id);
+            CreatePetForm petForm = new CreatePetForm 
+            {
+                Age = thePet.Age,
+                Breed = thePet.Breed,
+                Name = thePet.Name,
+                SelectedGenderId = thePet.Gender == Gender.Male ? 1 : 2,
+                SelectedOwnerId = thePet.Owner.Id,
+            };
+
+            if (thePet is Cat)
+            {
+                Cat theCat = catRepository.One(thePet.Id);
+                petForm.SelectedTypeId = 1;
+                petForm.NumberOfHoursSpentSleeping = theCat.NumberOfHoursSpentSleeping;
+                petForm.FavouriteFood = theCat.FavouriteFood;
+            }
+            if (thePet is Dog)
+            {
+                Dog theDog = dogRepository.One(thePet.Id);
+                petForm.SelectedTypeId = 2;
+                petForm.FavouriteFood = theDog.FavouriteFood;
+                petForm.FavouriteGame = theDog.FavouriteGame;
+                petForm.IsAgressive = theDog.IsAggressiveTowardsOtherPeople;
+            }
+
+            if (thePet is Bird)
+            {
+                Bird theBird = birdRepository.One(thePet.Id);
+                petForm.SelectedTypeId = 3;
+                petForm.SelectedPartnerId = theBird.PartnerId;
+            }
+
+            petForm.Owners = GetOwnersList();
+            petForm.Types = GetTypesList();
+            petForm.Genders = GetGendersList();
+            petForm.Partners = GetPartnersList(id);
+            return View(petForm);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Edit(CreatePetForm form)
+        {
+            if (ModelState.IsValid)
+            {
+                switch (form.SelectedTypeId)
+                {
+                    case 1: // Cat
+                        Cat theCat = catRepository.One(form.Id);
+                        theCat.Age = form.Age;
+                        theCat.Breed = form.Breed;
+                        theCat.Gender = form.SelectedGenderId == 1 ? Gender.Male : Gender.Female;
+                        theCat.Name = form.Name;
+                        theCat.OwnerId = form.SelectedOwnerId;
+                        theCat.NumberOfHoursSpentSleeping = form.NumberOfHoursSpentSleeping;
+                        theCat.FavouriteFood = form.FavouriteFood;
+                        break;
+                    case 2: // Dog
+                        break;
+                    case 3: // Bird
+                        break;
+                    default:
+                        break;
+                }
+                unitOfWork.Commit();
+                TempData["message"] = "The pet was edited successfully";
+                TempData["messageType"] = "success";
+                return RedirectToAction("Index", "Home");
+            }
+
+            form.Owners = GetOwnersList();
+            form.Types = GetTypesList();
+            form.Genders = GetGendersList();
+            form.Partners = GetPartnersList(form.Id);
             return View(form);
         }
 
@@ -97,17 +197,25 @@ namespace PetClinic.Web.Controllers
             return new SelectList(gendersList, "Value", "Text");
         }
 
-        private IEnumerable<SelectListItem> GetPartnersList()
+        private IEnumerable<SelectListItem> GetPartnersList(int petId)
         {
             IEnumerable<SelectListItem> partnersList =
                 birdRepository
                 .All()
                 .OrderBy(x => x.Id)
+                .Where(x =>x.Id != petId)
                 .Select(x => new SelectListItem
                 {
                     Value = x.Id.ToString(),
                     Text = x.Name.ToString()
                 });
+
+            if (partnersList.Count() <= 0)
+            {
+                List<SelectListItem> finalList = new List<SelectListItem>();
+                finalList.Add(new SelectListItem { Value = "9999", Text = "NoPartner" });
+                return new SelectList(finalList, "Value", "Text");
+            }
             return new SelectList(partnersList, "Value", "Text");
         }
 

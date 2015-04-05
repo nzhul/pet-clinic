@@ -3,7 +3,7 @@
 @foreach (var Owner in Model)
 {
     <tr>
-        <td><a href="@Url.Action("Details", "Owners", new { id = @Owner.Id })">@Owner.Name</a></td>
+        <td><a href="@Url.Action("Edit", "Owners", new { id = @Owner.Id })">@Owner.Name</a></td>
         <td>@Owner.PetsCount</td>
     </tr>
 }

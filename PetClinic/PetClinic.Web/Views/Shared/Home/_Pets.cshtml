@@ -3,8 +3,8 @@
 @foreach (var Pet in Model)
 {
     <tr>
-        <td>@Pet.Name</td>
+        <td><a href="@Url.Action("Edit", "Pets", new { id = @Pet.Id })">@Pet.Name</a></td>
         <td>@Pet.PetType</td>
-        <td>@Pet.Owner.Name</td>
+        <td><a href="@Url.Action("Edit", "Owners", new { id = @Pet.OwnerId})">@Pet.Owner.Name</a></td>
     </tr>
 }

@@ -222,6 +222,9 @@
     <Content Include="Views\Shared\Home\_Pets.cshtml" />
     <Content Include="Views\Shared\Owners\_CreateEditOwner.cshtml" />
     <Content Include="Views\Owners\Edit.cshtml" />
+    <Content Include="Views\Shared\_MessagePartial.cshtml" />
+    <Content Include="Views\Shared\Pets\_CreateEditPet.cshtml" />
+    <Content Include="Views\Pets\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

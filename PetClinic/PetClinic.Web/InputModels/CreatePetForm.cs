@@ -12,6 +12,8 @@ namespace PetClinic.Web.InputModels
 {
     public class CreatePetForm
     {
+        public int Id { get; set; }
+
         [Required]
         [StringLength(150, MinimumLength = 3, ErrorMessage = "Invalid Name, Max: 150; Min: 3 Characters long")]
         public string Name { get; set; }
