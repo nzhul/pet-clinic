@@ -1,9 +1,7 @@
 ﻿@model PetClinic.Web.InputModels.CreatePetForm
 @{
-    ViewBag.Title = "Create Pet";
+    ViewBag.Title = "Create New Pet";
 }
-
-<h2>Create new Pet</h2>
 
 @using (Html.BeginForm("Create", "Pets", FormMethod.Post, new { @class = "form-horizontal" }))
 {
@@ -13,50 +11,80 @@
         @ViewBag.Title <br />
     </h2>
     <hr />
-    <section class="registration-area">
-        <div class="row">
-
-            <div class="col-sm-12">
-                <div class="panel panel-smart">
-                    <div class="panel-heading">
-                        <p style="color:red;">@Html.ValidationMessage("ServerError")</p>
-                    </div>
-                    <div class="panel-body">
-                        <form class="form-horizontal" role="form">
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    @Html.LabelFor(model => model.Name, new { @class = "control-label" })
-                                    @Html.ValidationMessageFor(model => model.Name)
-                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Eg: Goshko" } })
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    @Html.LabelFor(model => model.SelectedOwnerId, new { @class = "control-label" })
-                                    @Html.ValidationMessageFor(model => model.SelectedOwnerId)
-                                    @Html.DropDownListFor(model => model.SelectedOwnerId, Model.Owners, " -- Choose Owner --", new { @id = "owners-dropdown", @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    @Html.LabelFor(model => model.SelectedTypeId, new { @class = "control-label" })
-                                    @Html.ValidationMessageFor(model => model.SelectedTypeId)
-                                    @Html.DropDownListFor(model => model.SelectedTypeId, Model.Types, " -- Choose Pet Type --", new { @id = "pets-dropdown", @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <button type="submit" class="btn btn-warning">
-                                        Create Pet
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>Primary Information:</h2>
+            <p style="color:red;">@Html.ValidationMessage("ServerError")</p>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.Name)
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Eg: Goshko" } })
+                </div>
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.SelectedOwnerId, new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.SelectedOwnerId)
+                    @Html.DropDownListFor(model => model.SelectedOwnerId, Model.Owners, " -- Choose Owner --", new { @id = "owners-dropdown", @class = "form-control" })
+                </div>
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.SelectedTypeId, new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.SelectedTypeId)
+                    @Html.DropDownListFor(model => model.SelectedTypeId, Model.Types, " -- Choose Pet Type --", new { @id = "pets-dropdown", @class = "form-control" })
+                </div>
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.Breed, new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.Breed)
+                    @Html.EditorFor(model => model.Breed, new { htmlAttributes = new { @class = "form-control", placeholder = "Eg: Persian Cat" } })
+                </div>
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.Age, new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.Age)
+                    @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control", min = "0" } })
+                </div>
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.SelectedGenderId, new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.SelectedGenderId)
+                    @Html.DropDownListFor(model => model.SelectedGenderId, Model.Genders, " -- Choose Gender --", new { @id = "pets-dropdown", @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-warning">
+                        Create Pet
+                    </button>
+                </div>
+            </div>
+            </div>
+        <div class="col-md-6">
+            <h2>Additional Information:</h2>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.NumberOfHoursSpentSleeping, new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.NumberOfHoursSpentSleeping)
+                    @Html.EditorFor(model => model.NumberOfHoursSpentSleeping, new { htmlAttributes = new { @class = "form-control", min = "0" } })
+                </div>
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.FavouriteFood, new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.FavouriteFood)
+                    @Html.EditorFor(model => model.FavouriteFood, new { htmlAttributes = new { @class = "form-control", placeholder = "Eg: Fish" } })
+                </div>
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.FavouriteGame, new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.FavouriteGame)
+                    @Html.EditorFor(model => model.FavouriteGame, new { htmlAttributes = new { @class = "form-control", placeholder = "Eg: Catch the Ball" } })
+                </div>
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.IsAgressive, new { @class = "control-label" })<br />
+                    @Html.CheckBoxFor(model => model.IsAgressive)
+                </div>
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.SelectedPartnerId, new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.SelectedPartnerId)
+                    @Html.DropDownListFor(model => model.SelectedPartnerId, Model.Partners, " -- Choose Partner --", new { @id = "pets-dropdown", @class = "form-control" })
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 }
 
 

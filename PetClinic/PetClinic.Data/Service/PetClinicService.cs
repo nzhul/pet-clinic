@@ -15,12 +15,14 @@ namespace PetClinic.Data.Service
     {
         private readonly IRepository<Owner> ownerRepository;
         private readonly IRepository<Pet> petRepository;
+        private readonly IRepository<Bird> birdRepository;
         private readonly IUnitOfWork unitOfWork;
 
-        public PetClinicService(IRepository<Owner> ownerRepository, IRepository<Pet> petRepository, IUnitOfWork unitOfWork)
+        public PetClinicService(IRepository<Owner> ownerRepository, IRepository<Pet> petRepository,IRepository<Bird> birdRepository, IUnitOfWork unitOfWork)
         {
             this.ownerRepository = ownerRepository;
             this.petRepository = petRepository;
+            this.birdRepository = birdRepository;
             this.unitOfWork = unitOfWork;
         }
 
@@ -84,9 +86,20 @@ namespace PetClinic.Data.Service
             return newPet.Id;
         }
 
-        public virtual int CreateCat(string name, int ownerId, string breed, int age, Gender gender, int numberOfHoursSpentSleeping, string favouriteFood)
+        public virtual int CreateCat(string name, int ownerId, string breed, int age, int genderType, int numberOfHoursSpentSleeping, string favouriteFood)
         {
             Owner selectedOwner = ownerRepository.FindOne(x => x.Id == ownerId);
+            Gender gender = Gender.Male;
+            switch (genderType)
+            {
+                case 1:
+                    gender = Gender.Male;
+                    break;
+                default:
+                case 2:
+                    gender = Gender.Female;
+                    break;
+            }
 
             Pet newCat = new Cat
             {
@@ -103,6 +116,72 @@ namespace PetClinic.Data.Service
             unitOfWork.Commit();
 
             return newCat.Id;
+        }
+
+
+        public int CreateDog(string name, int ownerId, string breed, int age, int genderType, string favouriteFood, string favouriteGame, bool isAggressive)
+        {
+            Owner selectedOwner = ownerRepository.FindOne(x => x.Id == ownerId);
+            Gender gender = Gender.Male;
+            switch (genderType)
+            {
+                case 1:
+                    gender = Gender.Male;
+                    break;
+                default:
+                case 2:
+                    gender = Gender.Female;
+                    break;
+            }
+
+            Pet newDog = new Dog
+            {
+                Name = name,
+                Owner = selectedOwner,
+                Breed = breed,
+                Age = age,
+                Gender = gender,
+                FavouriteGame = favouriteGame,
+                FavouriteFood = favouriteFood,
+                IsAggressiveTowardsOtherPeople = isAggressive
+            };
+
+            petRepository.Add(newDog);
+            unitOfWork.Commit();
+
+            return newDog.Id;
+        }
+
+        public int CreateBird(string name, int ownerId, string breed, int age, int genderType, int? partnerId)
+        {
+            Owner selectedOwner = ownerRepository.FindOne(x => x.Id == ownerId);
+            Bird partner = birdRepository.FindOne(x => x.Id == partnerId);
+            Gender gender = Gender.Male;
+            switch (genderType)
+            {
+                case 1:
+                    gender = Gender.Male;
+                    break;
+                default:
+                case 2:
+                    gender = Gender.Female;
+                    break;
+            }
+
+            Pet newBird = new Bird
+            {
+                Name = name,
+                Owner = selectedOwner,
+                Breed = breed,
+                Age = age,
+                Gender = gender,
+                Partner = partner
+            };
+
+            petRepository.Add(newBird);
+            unitOfWork.Commit();
+
+            return newBird.Id;
         }
 
         private OwnerViewModel CreateOwnerViewModel(Owner owner)

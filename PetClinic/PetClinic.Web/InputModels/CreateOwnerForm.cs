@@ -12,6 +12,7 @@ namespace PetClinic.Web.InputModels
     {
         [Required]
         [DisplayName("Names")]
+        [StringLength(150, MinimumLength = 3, ErrorMessage = "Invalid Names, Max: 150; Min: 3 Characters long")]
         public string Name { get; set; }
 
         public IEnumerable<PetViewModel> Pets { get; set; }

@@ -25,7 +25,9 @@ namespace PetClinic.Data.Service
 
         int CreatePet(string name, int ownerId);
 
-        int CreateCat(string name, int ownerId, string breed, int age, Gender gender, int numberOfHoursSpentSleeping, string favouriteFood);
+        int CreateCat(string name, int ownerId, string breed, int age, int genderType, int numberOfHoursSpentSleeping, string favouriteFood);
+        int CreateDog(string name, int ownerId, string breed, int age, int genderType, string favouriteFood, string favouriteGame, bool isAggressive);
+        int CreateBird(string name, int ownerId, string breed, int age, int genderType, int? partnerId);
 
     }
 }

@@ -1,4 +1,6 @@
-﻿using PetClinic.Data.Service;
+﻿using PetClinic.Data.DomainObjects;
+using PetClinic.Data.Repository;
+using PetClinic.Data.Service;
 using PetClinic.Data.ViewModels;
 using PetClinic.Web.InputModels;
 using System;
@@ -14,10 +16,12 @@ namespace PetClinic.Web.Controllers
     {
 
         private readonly IPetClinicService petClinicService;
+        private readonly IRepository<Owner> ownerRepository;
 
-        public OwnersController(IPetClinicService petClinicService)
+        public OwnersController(IPetClinicService petClinicService, IRepository<Owner> ownerRepository)
         {
             this.petClinicService = petClinicService;
+            this.ownerRepository = ownerRepository;
         }
 
 
@@ -54,6 +58,31 @@ namespace PetClinic.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return View(form);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Edit(int id)
+        {
+            Owner theOwner = ownerRepository.One(id);
+
+            CreateOwnerForm ownerForm = new CreateOwnerForm 
+            {
+                Name = theOwner.Name,
+                Pets = theOwner.Pets.Select(x => new PetViewModel 
+                                            {
+                                                Age = x.Age,
+                                                Breed = x.Breed,
+                                                Gender = x.Gender,
+                                                Id = x.Id,
+                                                Name = x.Name,
+                                                //TODO: Find a way to get pet type;
+                                            })
+            };
+
+            return View(ownerForm);
+
+
         }
     }
 }

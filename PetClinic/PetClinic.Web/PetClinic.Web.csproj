@@ -220,6 +220,8 @@
     <Content Include="Views\Shared\Home\_Owners.cshtml" />
     <Content Include="Views\Owners\Details.cshtml" />
     <Content Include="Views\Shared\Home\_Pets.cshtml" />
+    <Content Include="Views\Shared\Owners\_CreateEditOwner.cshtml" />
+    <Content Include="Views\Owners\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
