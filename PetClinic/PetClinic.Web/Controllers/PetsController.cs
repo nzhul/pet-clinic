@@ -118,7 +118,10 @@ namespace PetClinic.Web.Controllers
             {
                 Bird theBird = birdRepository.One(thePet.Id);
                 petForm.SelectedTypeId = 3;
-                petForm.SelectedPartnerId = theBird.PartnerId;
+                if (theBird.Partner != null)
+                {
+                    petForm.SelectedPartnerId = theBird.Partner.Id;
+                }
             }
 
             petForm.Owners = GetOwnersList();
@@ -236,13 +239,6 @@ namespace PetClinic.Web.Controllers
                     Value = x.Id.ToString(),
                     Text = x.Name.ToString()
                 });
-
-            if (partnersList.Count() <= 0)
-            {
-                List<SelectListItem> finalList = new List<SelectListItem>();
-                finalList.Add(new SelectListItem { Value = "9999", Text = "NoPartner" });
-                return new SelectList(finalList, "Value", "Text");
-            }
             return new SelectList(partnersList, "Value", "Text");
         }
 

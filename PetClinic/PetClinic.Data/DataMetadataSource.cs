@@ -50,6 +50,9 @@ namespace PetClinic.Data
                 PertnerId = x.PartnerId,
                 Partner = x.Partner
             }).Inheritance(Telerik.OpenAccess.InheritanceStrategy.Vertical).ToTable("Birds");
+
+            birdConfiguration.HasAssociation(p => p.Partner).ToColumn("PartnerId");
+
             configurations.Add(birdConfiguration);
 
             MappingConfiguration<Owner> ownerConfiguration = new MappingConfiguration<Owner>();

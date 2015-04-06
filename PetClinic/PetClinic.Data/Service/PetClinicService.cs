@@ -189,7 +189,15 @@ namespace PetClinic.Data.Service
         public int CreateBird(string name, int ownerId, string breed, int age, int genderType, int? partnerId)
         {
             Owner selectedOwner = ownerRepository.One(ownerId);
-            Bird partner = birdRepository.One((int)partnerId);
+            Bird partner = new Bird();
+            if (partnerId == null)
+            {
+                partner = null;
+            }
+            else
+            {
+                partner = birdRepository.One((int)partnerId);
+            }
             
             Gender gender = Gender.Male;
             switch (genderType)
