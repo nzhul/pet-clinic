@@ -9,6 +9,8 @@ namespace PetClinic.Data.DomainObjects
 {
     public class Pet : IEntity, INamable
     {
+        private IList<Examination> examinations = new List<Examination>();
+
         public virtual int Id { get; set; }
 
         public virtual string Name { get; set; }
@@ -21,6 +23,20 @@ namespace PetClinic.Data.DomainObjects
 
         public virtual Owner Owner { get; set; }
 
+
         public virtual int OwnerId { get; set; }
+
+        public virtual IList<Examination> Examinations
+        {
+            get
+            {
+                return this.examinations;
+            }
+
+            set
+            {
+                this.examinations = value;
+            }
+        }
     }
 }

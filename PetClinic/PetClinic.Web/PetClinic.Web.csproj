@@ -161,6 +161,7 @@
     </Compile>
     <Compile Include="Helpers\ValidationHelper.cs" />
     <Compile Include="InputModels\CreateExaminationForm.cs" />
+    <Compile Include="InputModels\ReportsForm.cs" />
     <Compile Include="InputModels\SearchPetsForm.cs" />
     <Compile Include="InputModels\CreateOwnerForm.cs" />
     <Compile Include="InputModels\CreatePetForm.cs" />
@@ -232,6 +233,8 @@
     <Content Include="Views\Examinations\SearchPet.cshtml" />
     <Content Include="Views\Shared\Examinations\_CreateEditExamination.cshtml" />
     <Content Include="Views\Examinations\Edit.cshtml" />
+    <Content Include="Views\Shared\Home\_Examinations.cshtml" />
+    <Content Include="Views\Examinations\Reports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

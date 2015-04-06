@@ -66,6 +66,14 @@ namespace PetClinic.Data
             userConfiguration.HasProperty(p => p.Id).IsIdentity(KeyGenerator.Autoinc);
             configurations.Add(userConfiguration);
 
+            MappingConfiguration<Examination> examinationConfiguration = new MappingConfiguration<Examination>();
+            examinationConfiguration.MapType().ToTable("Examinations");
+            examinationConfiguration.HasProperty(p => p.Id).IsIdentity(KeyGenerator.Autoinc);
+            examinationConfiguration.HasAssociation(p => p.ExaminedPet)
+                .WithOpposite(c => c.Examinations)
+                .HasConstraint((p, c) => p.ExaminedPetId == c.Id);
+            configurations.Add(examinationConfiguration);
+
             return configurations;
         }
     }

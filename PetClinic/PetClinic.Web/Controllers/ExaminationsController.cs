@@ -8,17 +8,28 @@ using PetClinic.Data.DomainObjects;
 using PetClinic.Data.Repository;
 using PetClinic.Data.ViewModels;
 using PetClinic.Data.Service;
+using PetClinic.Data.Infrastructure;
 
 namespace PetClinic.Web.Controllers
 {
     public class ExaminationsController : Controller
     {
         private readonly IRepository<Owner> ownerRepository;
+        private readonly IRepository<Pet> petRepository;
+        private readonly IRepository<Examination> examinationRepository;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IPetClinicService petClinicService;
 
-        public ExaminationsController(IRepository<Owner> ownerRepository, IPetClinicService petClinicService)
+        public ExaminationsController(IRepository<Owner> ownerRepository,
+                                      IRepository<Pet> petRepository, 
+                                      IRepository<Examination> examinationRepository,
+                                      IUnitOfWork unitOfWork,
+                                      IPetClinicService petClinicService)
         {
             this.ownerRepository = ownerRepository;
+            this.petRepository = petRepository;
+            this.examinationRepository = examinationRepository;
+            this.unitOfWork = unitOfWork;
             this.petClinicService = petClinicService;
         }
 
@@ -51,6 +62,32 @@ namespace PetClinic.Web.Controllers
         {
             CreateExaminationForm form = new CreateExaminationForm();
             form.Pet = petClinicService.GetPetById(id);
+            form.PetId = id;
+            return View(form);
+        }
+        [HttpPost]
+        [Authorize]
+        public ActionResult Examine(CreateExaminationForm form)
+        {
+            if (ModelState.IsValid)
+            {
+                Pet thePet = petRepository.One(form.PetId);
+                Examination newExamination = new Examination
+                {
+                    ExaminedPet = thePet,
+                    Date = DateTime.Now,
+                    Diagnosis = form.Diagnosis,
+                    IsSick = form.IsSick
+                };
+
+                examinationRepository.Add(newExamination);
+                unitOfWork.Commit();
+
+                TempData["message"] = "The Pet, was examined! at " + newExamination.Date;
+                TempData["messageType"] = "success";
+                return RedirectToAction("Index", "Home");
+            }
+
             return View(form);
         }
 
@@ -58,9 +95,36 @@ namespace PetClinic.Web.Controllers
         [Authorize]
         public ActionResult Edit(int id) // The ID here is the Id of the examination
         {
-            //TODO: Finish Examination Editing
+            Examination examination = examinationRepository.One(id);
             CreateExaminationForm form = new CreateExaminationForm();
+            form.Diagnosis = examination.Diagnosis;
+            form.IsSick = examination.IsSick;
             form.Pet = petClinicService.GetPetById(id);
+            return View(form);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Edit(CreateExaminationForm form)
+        {
+            if (ModelState.IsValid)
+            {
+                petClinicService.EditExamination(form.Id, form.Diagnosis, form.IsSick);
+                TempData["message"] = "Examination was edited successfully";
+                TempData["messageType"] = "success";
+                return RedirectToAction("Index", "Home");
+            }
+
+            form.Pet = petClinicService.GetPetById(form.PetId);
+            return View(form);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Reports()
+        {
+            ReportsForm form = new ReportsForm();
+            form.SearchDate = DateTime.Now;
             return View(form);
         }
 

@@ -20,6 +20,7 @@ namespace PetClinic.Web.Controllers
         private readonly IRepository<Cat> catRepository;
         private readonly IRepository<Dog> dogRepository;
         private readonly IRepository<Bird> birdRepository;
+        private readonly IRepository<Examination> examinationRepository;
         private readonly IUnitOfWork unitOfWork;
 
         public PetsController(IPetClinicService petClinicService, 
@@ -28,6 +29,7 @@ namespace PetClinic.Web.Controllers
                               IRepository<Bird> birdRepository, 
                               IRepository<Cat> catRepository,
                               IRepository<Dog> dogRepository,
+                              IRepository<Examination> examinationRepository,
                               IUnitOfWork unitOfWork)
         {
             this.petClinicService = petClinicService;
@@ -36,6 +38,7 @@ namespace PetClinic.Web.Controllers
             this.catRepository = catRepository;
             this.dogRepository = dogRepository;
             this.birdRepository = birdRepository;
+            this.examinationRepository = examinationRepository;
             this.unitOfWork = unitOfWork;
         }
         
@@ -136,7 +139,30 @@ namespace PetClinic.Web.Controllers
         public ActionResult Delete(int id)
         {
             Pet thePet = petRepository.One(id);
+
+            if (thePet is Bird)
+            {
+                Bird theBird = birdRepository.One(thePet.Id);
+                if (theBird.Partner != null || theBird.PartnerId > 0)
+                {
+                    Bird thePartner = birdRepository.One(theBird.Partner.Id);
+                    thePartner.Partner = null;
+                    thePartner.PartnerId = 0;
+                }
+            }
+
             petRepository.Remove(thePet);
+
+            IEnumerable<Examination> allExaminations = examinationRepository.All();
+
+            foreach (var Examination in allExaminations)
+            {
+                if (Examination.ExaminedPetId == id)
+                {
+                    examinationRepository.Remove(Examination);
+                }
+            }
+
             unitOfWork.Commit();
             TempData["message"] = "The pet was deleted successfully";
             TempData["messageType"] = "danger";

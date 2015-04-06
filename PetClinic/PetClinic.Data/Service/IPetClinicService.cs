@@ -22,6 +22,11 @@ namespace PetClinic.Data.Service
         IEnumerable<PetViewModel> GetPets();
         IEnumerable<PetViewModel> GetPetsFiltered(int ownerId, int typeId);
 
+        ExaminationViewModel GetExaminationById(int id);
+        IEnumerable<ExaminationViewModel> GetExaminations();
+
+        int EditExamination(int id, string diagnosis, bool isSick);
+
         int CreateOwner(string name);
 
         int EditOwner(int id, string name);

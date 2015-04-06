@@ -23,6 +23,7 @@ namespace PetClinic.Web.Controllers
             var model = new HomeViewModel();
             model.Pets = petClinicService.GetPets();
             model.Owners = petClinicService.GetOwners();
+            model.Examinations = petClinicService.GetExaminations();
             return View(model);
         }
 

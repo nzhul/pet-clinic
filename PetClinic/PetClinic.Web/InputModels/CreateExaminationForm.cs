@@ -10,6 +10,9 @@ namespace PetClinic.Web.InputModels
 {
     public class CreateExaminationForm
     {
+        public int Id { get; set; }
+        public int PetId { get; set; }
+
         public PetViewModel Pet { get; set; }
 
         [DataType(DataType.MultilineText)]

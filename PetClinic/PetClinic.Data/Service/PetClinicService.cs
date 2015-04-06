@@ -16,13 +16,19 @@ namespace PetClinic.Data.Service
         private readonly IRepository<Owner> ownerRepository;
         private readonly IRepository<Pet> petRepository;
         private readonly IRepository<Bird> birdRepository;
+        private readonly IRepository<Examination> examinationRepository;
         private readonly IUnitOfWork unitOfWork;
 
-        public PetClinicService(IRepository<Owner> ownerRepository, IRepository<Pet> petRepository,IRepository<Bird> birdRepository, IUnitOfWork unitOfWork)
+        public PetClinicService(IRepository<Owner> ownerRepository, 
+                                IRepository<Pet> petRepository,
+                                IRepository<Bird> birdRepository,
+                                IRepository<Examination> examinationRepository,
+                                IUnitOfWork unitOfWork)
         {
             this.ownerRepository = ownerRepository;
             this.petRepository = petRepository;
             this.birdRepository = birdRepository;
+            this.examinationRepository = examinationRepository;
             this.unitOfWork = unitOfWork;
         }
 
@@ -30,6 +36,12 @@ namespace PetClinic.Data.Service
         {
             Owner owner = ownerRepository.One(id);
             return CreateOwnerViewModel(owner);
+        }
+
+        public virtual ExaminationViewModel GetExaminationById(int id)
+        {
+            Examination examination = examinationRepository.One(id);
+            return CreateExaminationViewModel(examination);
         }
 
         public virtual OwnerDetailsViewModel GetOwnerDetailsById(int id)
@@ -55,6 +67,13 @@ namespace PetClinic.Data.Service
             IEnumerable<PetViewModel> pet = petRepository.All().Select(CreatePetViewModel);
             return pet;
         }
+
+        public IEnumerable<ExaminationViewModel> GetExaminations()
+        {
+            IEnumerable<ExaminationViewModel> examinations = examinationRepository.All().Select(CreateExaminationViewModel);
+            return examinations;
+        }
+
 
         public virtual IEnumerable<PetViewModel> GetPetsFiltered(int ownerId, int typeId)
         {
@@ -276,6 +295,27 @@ namespace PetClinic.Data.Service
                 Breed = pet.Breed,
                 PetType = petType
             };
+        }
+
+        private ExaminationViewModel CreateExaminationViewModel(Examination examination)
+        {
+            return new ExaminationViewModel
+            {
+                Id = examination.Id,
+                Date = examination.Date,
+                ExaminedPet = examination.ExaminedPet,
+            };
+        }
+
+
+        public virtual int EditExamination(int id, string diagnosis, bool isSick)
+        {
+            Examination theExamination = examinationRepository.One(id);
+            theExamination.Diagnosis= diagnosis;
+            theExamination.IsSick = isSick;
+            theExamination.Date = DateTime.Now;
+            unitOfWork.Commit();
+            return theExamination.Id;
         }
     }
 }

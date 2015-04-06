@@ -1,0 +1,11 @@
+﻿@model IEnumerable<PetClinic.Data.ViewModels.ExaminationViewModel>
+
+@foreach (var Examination in Model)
+{
+    <tr>
+        <td><a href="@Url.Action("Edit", "Examinations", new { id = @Examination.Id })">@Examination.Date</a></td>
+        <td><a href="@Url.Action("Edit", "Pets", new { id = @Examination.ExaminedPet.Id })">@Examination.ExaminedPet.Name</a></td>
+        <td>@Examination.ExaminedPet.Breed</td>
+        <td><a href="@Url.Action("Edit", "Owners", new { id = @Examination.ExaminedPet.Owner.Id })">@Examination.ExaminedPet.Owner.Name</a></td>
+    </tr>
+}
