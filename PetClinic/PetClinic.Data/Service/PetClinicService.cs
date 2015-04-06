@@ -74,6 +74,13 @@ namespace PetClinic.Data.Service
             return examinations;
         }
 
+        public IEnumerable<ExaminationViewModel> GetExaminationsByDate(DateTime date)
+        {
+            IEnumerable<ExaminationViewModel> examinations =
+                examinationRepository.All().Where(x => x.Date.Day == date.Day).Select(CreateExaminationViewModel);
+            return examinations;
+        }
+
 
         public virtual IEnumerable<PetViewModel> GetPetsFiltered(int ownerId, int typeId)
         {
@@ -304,6 +311,8 @@ namespace PetClinic.Data.Service
                 Id = examination.Id,
                 Date = examination.Date,
                 ExaminedPet = examination.ExaminedPet,
+                Diagnosis = examination.Diagnosis,
+                IsSick = examination.IsSick
             };
         }
 

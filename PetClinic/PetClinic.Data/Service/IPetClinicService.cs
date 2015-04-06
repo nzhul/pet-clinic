@@ -24,6 +24,7 @@ namespace PetClinic.Data.Service
 
         ExaminationViewModel GetExaminationById(int id);
         IEnumerable<ExaminationViewModel> GetExaminations();
+        IEnumerable<ExaminationViewModel> GetExaminationsByDate(DateTime date);
 
         int EditExamination(int id, string diagnosis, bool isSick);
 

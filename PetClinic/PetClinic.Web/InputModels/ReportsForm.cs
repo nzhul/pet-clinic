@@ -10,7 +10,7 @@ namespace PetClinic.Web.InputModels
     public class ReportsForm
     {
         [DataType(DataType.Date)]
-        public DateTime SearchDate {get;set;}
+        public DateTime? SearchDate {get;set;}
         public IEnumerable<ExaminationViewModel> ExaminationsResult { get; set; }
     }
 }

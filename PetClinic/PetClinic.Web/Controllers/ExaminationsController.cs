@@ -124,8 +124,22 @@ namespace PetClinic.Web.Controllers
         public ActionResult Reports()
         {
             ReportsForm form = new ReportsForm();
-            form.SearchDate = DateTime.Now;
+
             return View(form);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Reports(ReportsForm form)
+        {
+            if (form.SearchDate != null)
+            {
+                form.ExaminationsResult = petClinicService.GetExaminationsByDate(form.SearchDate.Value);
+                return View(form);
+            }
+            ReportsForm newForm = new ReportsForm();
+            newForm.SearchDate = form.SearchDate;
+            return View(newForm);
         }
 
         private IEnumerable<SelectListItem> GetOwnersList()

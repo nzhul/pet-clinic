@@ -190,6 +190,29 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="OpenAccessNuGet.targets" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\datepicker\external\jquery\jquery.js" />
+    <Content Include="Scripts\datepicker\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Scripts\datepicker\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Scripts\datepicker\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Scripts\datepicker\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Scripts\datepicker\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Scripts\datepicker\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Scripts\datepicker\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Scripts\datepicker\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Scripts\datepicker\images\ui-icons_222222_256x240.png" />
+    <Content Include="Scripts\datepicker\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Scripts\datepicker\images\ui-icons_454545_256x240.png" />
+    <Content Include="Scripts\datepicker\images\ui-icons_888888_256x240.png" />
+    <Content Include="Scripts\datepicker\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Scripts\datepicker\index.html" />
+    <Content Include="Scripts\datepicker\jquery-ui.css" />
+    <Content Include="Scripts\datepicker\jquery-ui.js" />
+    <Content Include="Scripts\datepicker\jquery-ui.min.css" />
+    <Content Include="Scripts\datepicker\jquery-ui.min.js" />
+    <Content Include="Scripts\datepicker\jquery-ui.structure.css" />
+    <Content Include="Scripts\datepicker\jquery-ui.structure.min.css" />
+    <Content Include="Scripts\datepicker\jquery-ui.theme.css" />
+    <Content Include="Scripts\datepicker\jquery-ui.theme.min.css" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -235,6 +258,7 @@
     <Content Include="Views\Examinations\Edit.cshtml" />
     <Content Include="Views\Shared\Home\_Examinations.cshtml" />
     <Content Include="Views\Examinations\Reports.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -6,7 +6,7 @@
 <h2>@ViewBag.Title</h2>
 <p>Choose date to view the reports.</p>
 
-@using (Html.BeginForm("SearchPet", "Examinations", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Reports", "Examinations", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
     <div class="row">
@@ -18,7 +18,7 @@
                     @Html.ValidationMessageFor(model => model.SearchDate)
                 </div>
                 <div class="col-md-3">
-                    <button type="submit" class="btn btn-warning" style="margin-top:27px;margin-left:-85px;">
+                    <button type="submit" class="btn btn-warning" style="margin-top:25px;margin-left:-18px;">
                         Search
                     </button>
                 </div>
@@ -26,18 +26,42 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
 
-            @if (Model.ExaminationsResult != null && Model.ExaminationsResult.Count() >= 1)
+    @if (Model.ExaminationsResult != null)
+    {
+        if (Model.ExaminationsResult.Count() >= 1)
+        {
+            foreach (var Examination in Model.ExaminationsResult)
             {
-                foreach (var Examination in Model.ExaminationsResult)
-                {
-                    @Examination.Date
-                }
+                <div class="col-md-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@Examination.ExaminedPet.Name Examination</h3>
+                            <a href="@Url.Action("Edit", "Examinations", new { id = @Examination.Id })" class="btn" style="background: white; float:right;margin:-21px -5px 0 0px;padding:2px 6px 2px 6px;">Edit</a>
+                        </div>
+                        <div class="panel-body">
+                            <h4>Diagnosis:</h4>
+                            <p>@Examination.Diagnosis</p>
+                            <hr />
+                            <strong>Is Sick:</strong> @Examination.IsSick
+                            <hr />
+                            <strong>Date:</strong> @Examination.Date
+                        </div>
+                    </div>
+                </div>
             }
-        </div>
+        }
+        else
+        {
+            <div class="col-md-12">
+                <p>There are no examinations on this date!</p>
+            </div>
+        }
+    }
     </div>
 }
+
+<script src="~/Scripts/datepicker/jquery-ui.min.js"></script>
 <script type="text/javascript">
     $(function () { // will trigger when the document is ready
         $('.datepicker').datepicker(); //Initialise any date pickers

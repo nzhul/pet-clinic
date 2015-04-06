@@ -16,12 +16,8 @@
 
             <div class="col-sm-12">
                 <div class="panel panel-smart">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Задължителни данни за статията</h3>
-                        <p style="color:red;">@Html.ValidationMessage("ServerError")</p>
-                    </div>
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form">
+                        <p style="color:red;">@Html.ValidationMessage("ServerError")</p>
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     @Html.LabelFor(model => model.UserName, new { @class = "control-label" })
@@ -57,7 +53,6 @@
                                     </button>
                                 </div>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>

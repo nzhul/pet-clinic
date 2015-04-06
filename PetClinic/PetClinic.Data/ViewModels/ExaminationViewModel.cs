@@ -17,5 +17,9 @@ namespace PetClinic.Data.ViewModels
 
         public Owner PetOwner { get; set; }
 
+        public string Diagnosis { get; set; }
+
+        public bool IsSick { get; set; }
+
     }
 }

@@ -33,24 +33,31 @@
 <div class="row">
     <div class="col-md-12">
 
-        @if (Model.PetsResult != null && Model.PetsResult.Count() >= 1)
+        @if (Model.PetsResult != null)
         {
-            foreach (var Pet in Model.PetsResult)
+            if (Model.PetsResult.Count() >= 1)
             {
-                <div class="panel panel-primary" style="width:200px;float:left;margin-right: 10px;">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <a href="@Url.Action("Edit", "Pets", new { id = Pet.Id })">@Pet.Name [<small style="color:lightgray">@Pet.PetType</small>]</a>
-                        </h3>
+                foreach (var Pet in Model.PetsResult)
+                {
+                    <div class="panel panel-primary" style="width:200px;float:left;margin-right: 10px;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a href="@Url.Action("Edit", "Pets", new { id = Pet.Id })">@Pet.Name [<small style="color:lightgray">@Pet.PetType</small>]</a>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            Breed: <span class="label label-warning pull-right">@Pet.Breed</span><br />
+                            Age: <span class="label label-danger pull-right">@Pet.Age</span><br />
+                            Gender: <span class="label label-success pull-right">@Pet.Gender</span><br />
+                            Owner: <span class="label label-success pull-right"><a href="@Url.Action("Edit", "Owners", new { id = @Pet.OwnerId })" style="color:white;">@Pet.Owner.Name</a></span><br />
+                            @Html.ActionLink("Examine", "Examine", new { id = Pet.Id }, new { @class = "btn btn-warning", @style = "margin-left: 44px;margin-top:15px;" })
+                        </div>
                     </div>
-                    <div class="panel-body">
-                        Breed: <span class="label label-warning pull-right">@Pet.Breed</span><br />
-                        Age: <span class="label label-danger pull-right">@Pet.Age</span><br />
-                        Gender: <span class="label label-success pull-right">@Pet.Gender</span><br />
-                        Owner: <span class="label label-success pull-right"><a href="@Url.Action("Edit", "Owners", new { id = @Pet.OwnerId })" style="color:white;">@Pet.Owner.Name</a></span><br />
-                        @Html.ActionLink("Examine", "Examine", new { id = Pet.Id }, new { @class = "btn btn-warning", @style="margin-left: 44px;margin-top:15px;" })
-                    </div>
-                </div>
+                }
+            }
+            else
+            {
+                <p>The search doesn't match any results. Please Try again with different filters!</p>
             }
         }
     </div>

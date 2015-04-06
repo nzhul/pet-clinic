@@ -69,6 +69,7 @@ namespace PetClinic.Data
             MappingConfiguration<Examination> examinationConfiguration = new MappingConfiguration<Examination>();
             examinationConfiguration.MapType().ToTable("Examinations");
             examinationConfiguration.HasProperty(p => p.Id).IsIdentity(KeyGenerator.Autoinc);
+            examinationConfiguration.HasProperty(p => p.Diagnosis).IsUnicode();
             examinationConfiguration.HasAssociation(p => p.ExaminedPet)
                 .WithOpposite(c => c.Examinations)
                 .HasConstraint((p, c) => p.ExaminedPetId == c.Id);
