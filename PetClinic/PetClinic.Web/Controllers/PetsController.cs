@@ -173,12 +173,23 @@ namespace PetClinic.Web.Controllers
                         theDog.IsAggressiveTowardsOtherPeople = form.IsAgressive;
                         break;
                     case 3: // Bird
+                        Bird partner = new Bird();
+                        if (form.SelectedPartnerId == null)
+                        {
+                            partner = null;
+                        }
+                        else
+                        {
+                            partner = birdRepository.One((int)form.SelectedPartnerId);
+                        }
+
                         Bird theBird = birdRepository.One(form.Id);
                         theBird.Age = form.Age;
                         theBird.Breed = form.Breed;
                         theBird.Gender = form.SelectedGenderId == 1 ? Gender.Male : Gender.Female;
                         theBird.Name = form.Name;
                         theBird.OwnerId = form.SelectedOwnerId;
+                        theBird.Partner = partner;
                         break;
                     default:
                         break;
