@@ -14,8 +14,15 @@
             <div class="form-group">
                 <div class="col-md-3">
                     @Html.LabelFor(model => model.SearchDate)
-                    @Html.TextBoxFor(model => model.SearchDate, new { @class = "form-control datepicker", placeholder = "Enter Drop-off date here..." })
+                    @Html.TextBoxFor(model => model.SearchDate, new { @class = "form-control", placeholder = "Enter Drop-off date here...", id = "datepicker" })
                     @Html.ValidationMessageFor(model => model.SearchDate)
+                </div>
+                <div class="col-md-3">
+                    <label for="locale">Localization</label>
+                    <select id="locale" class="form-control">
+                        <option value="">USA</option>
+                        <option value="fr" selected="selected">Europe</option>
+                    </select>
                 </div>
                 <div class="col-md-3">
                     <button type="submit" class="btn btn-warning" style="margin-top:25px;margin-left:-18px;">
@@ -60,16 +67,21 @@
     }
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <hr />
-            <p style="width:400px;"><small>A bug with user time format may occur. The search input is set to search for day/month/year, but if your system is in other format you may need to manualy change the order if the date. For Example: month/day/year</small></p>
+            <p><small>A bug with user time format may occur. The search input is set to search for day/month/year, but if your system is in other format you may need to manualy change the localization. For Example: month/day/year</small></p>
         </div>
     </div>
 }
 
 <script src="~/Scripts/datepicker/jquery-ui.min.js"></script>
+<script src="~/Scripts/localizations/datepicker-fr.js"></script>
 <script type="text/javascript">
-    $(function () { // will trigger when the document is ready
-        $('.datepicker').datepicker({ dateFormat: 'dd/mm/yy' }); //Initialise any date pickers
+    $(function () {
+        $("#datepicker").datepicker($.datepicker.regional["fr"]);
+        $("#locale").change(function () {
+            $("#datepicker").datepicker("option",
+				$.datepicker.regional[$(this).val()]);
+        });
     });
 </script>
