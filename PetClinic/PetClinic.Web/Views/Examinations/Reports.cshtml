@@ -59,11 +59,17 @@
         }
     }
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <hr />
+            <p style="width:400px;"><small>A bug with user time format may occur. The search input is set to search for day/month/year, but if your system is in other format you may need to manualy change the order if the date. For Example: month/day/year</small></p>
+        </div>
+    </div>
 }
 
 <script src="~/Scripts/datepicker/jquery-ui.min.js"></script>
 <script type="text/javascript">
     $(function () { // will trigger when the document is ready
-        $('.datepicker').datepicker(); //Initialise any date pickers
+        $('.datepicker').datepicker({ dateFormat: 'dd/mm/yy' }); //Initialise any date pickers
     });
 </script>
